@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Trivia Time</title>
+    <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png"/>
     <!--Added Bootstrap cdn -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!--Added jQuery cdn-->
@@ -14,11 +15,11 @@
     <div class ="container" style="background-color: grey;">
 
         Hello;
-        <div id="start" style="display: true;">
+        <div id="start" style="display: none;">
             <button type="button" class="btn btn-primary btn-lg">Start Quiz</button>
             start
         </div>
-        <div id="quiz" style="display: true; background-color: honeydew;" >
+        <div id="quiz" style="display: true; background-color: honeydew; display: true;">
             <div class="row" > 
                 <div class=" col-6 score" style="text-align: center;">
                     Score 
@@ -33,17 +34,17 @@
             <div id="question">
                 <!--Row 1 - 1 Column-->
                 <div class="row">
-                    <div class="col-12" style="background-color: khaki; text-align: center;">
+                    <div class="col-12 question" style="background-color: khaki; text-align: center;">
                         Question goes here
                     </div>
                 </div>
                 <!--Row 2 - 2 Columns-->
                 <div class="row">
                     <div class="col-6">
-                        <button type="button" class="btn btn-primary btn-lg btn-block">Option A</button>
+                        <button type="button" id="opt-a"class="btn btn-primary btn-lg btn-block">Option A</button>
                     </div>
                     <div class="col-6">
-                        <button type="button" class="btn btn-primary btn-lg btn-block">Option B</button>
+                        <button type="button" id="opt-b" class="btn btn-primary btn-lg btn-block">Option B</button>
                     </div>
                 </div>
                 <div>
@@ -52,10 +53,10 @@
                 <!--Row 3 - 2 Columns-->
                 <div class="row">
                         <div class="col-6">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Option C</button>
+                            <button type="button" id="opt-c" class="btn btn-primary btn-lg btn-block">Option C</button>
                         </div>
                         <div class="col-6">
-                            <button type="button" class="btn btn-primary btn-lg btn-block">Option D</button>
+                            <button type="button" id="opt-d" class="btn btn-primary btn-lg btn-block">Option D</button>
                         </div>
                 </div>
                 <!--Progress bar-->
@@ -80,10 +81,51 @@
 
             </div>
         </div>
-        <div id="score" style="display: none;">
+        <div id="score" >
             Score
         </div>
     </div>
+    <!--Added custom javascript-->
+    <script>
+        let questIndex = 0;
+        let questions = [
+            {
+                q: "What's Cookie monster's favorite food?",
+                a: "Ice-cream",
+                b: "Cookies",
+                c: "Chocolates",
+                d: "Marshmellows",
+                ans: "b"
+            }
+            {
+                q: "What's Elmo's pet's name?",
+                a: "Dorothy",
+                b: "Nemo",
+                c: "Pluto",
+                d: "Oreo",
+                ans: "a"
+            }
+        ];
+        renderQuestion();
+
+        function renderQuestion(){
+            if(questIndex <= questions.length){
+                //Display question
+                $(".question").text(questions[questIndex].q);
+
+                //Display options
+                $("#opt-a").text(questions[questIndex].a);
+                $("#opt-b").text(questions[questIndex].b);
+                $("#opt-c").text(questions[questIndex].c);
+                $("#opt-d").text(questions[questIndex].d);
+            }else{
+                displayScore();
+            }
+        }
+        function displayScore(){
+
+        }
+    </script>
     <!--Added Bootstrap js-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
