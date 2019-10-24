@@ -6,45 +6,45 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Trivia Time</title>
     <link rel="shortcut icon" type="image/png" href="assets/images/favicon.png"/>
+    
     <!--Added Bootstrap cdn -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/style.css">
     <!--Added jQuery cdn-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class ="container" style="background-color: grey;">
+    <div class ="container">
 
-        Hello;
-        <div id="start" style="display: none;">
-            <button type="button" class="btn btn-primary btn-lg">Start Quiz</button>
-            start
+        
+        <div id="start">
+            <button id="start-btn" type="button" class="btn btn-primary btn-lg">Start Quiz</button>
+            
         </div>
-        <div id="quiz" style="display: true; background-color: honeydew; display: true;">
+        <div id="quiz" style="background-color: honeydew;" class="hide">
             <div class="row" > 
                 <div class=" col-6 score" style="text-align: center;">
                     Score 
                 </div>
                 <div class="col-6 timer">
                     Timer
-
                 </div>
-
             </div>
             
-            <div id="question">
+            <div id="question" >
                 <!--Row 1 - 1 Column-->
                 <div class="row">
-                    <div class="col-12 question" style="background-color: khaki; text-align: center;">
+                    <div class="col-12 question" >
                         Question goes here
                     </div>
                 </div>
                 <!--Row 2 - 2 Columns-->
                 <div class="row">
                     <div class="col-6">
-                        <button type="button" id="opt-a"class="btn btn-primary btn-lg btn-block">Option A</button>
+                        <button type="button" id="opt-a"class="btn btn-primary btn-lg btn-block opt" value="a">Option A</button>
                     </div>
                     <div class="col-6">
-                        <button type="button" id="opt-b" class="btn btn-primary btn-lg btn-block">Option B</button>
+                        <button type="button" id="opt-b" class="btn btn-primary btn-lg btn-block opt" value="b">Option B</button>
                     </div>
                 </div>
                 <div>
@@ -53,41 +53,26 @@
                 <!--Row 3 - 2 Columns-->
                 <div class="row">
                         <div class="col-6">
-                            <button type="button" id="opt-c" class="btn btn-primary btn-lg btn-block">Option C</button>
+                            <button type="button" id="opt-c" class="btn btn-primary btn-lg btn-block opt" value="c">Option C</button>
                         </div>
                         <div class="col-6">
-                            <button type="button" id="opt-d" class="btn btn-primary btn-lg btn-block">Option D</button>
+                            <button type="button" id="opt-d" class="btn btn-primary btn-lg btn-block opt" value="d">Option D</button>
                         </div>
                 </div>
-                <!--Progress bar-->
-                <div class="row">
-                    <div class="col-12" style="align-content: center;">
-                            <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                  <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                  <div class="progress">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                  <div class="progress">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-
-                    </div>
-
-                </div>
+                
 
             </div>
         </div>
-        <div id="score" >
-            Score
+        <div id="score" class="hide">
+            
         </div>
     </div>
     <!--Added custom javascript-->
     <script>
         let questIndex = 0;
+        let answer="";
+        let score = 0;
+        let isCorrect = false;
         let questions = [
             {
                 q: "What's Cookie monster's favorite food?",
@@ -96,7 +81,7 @@
                 c: "Chocolates",
                 d: "Marshmellows",
                 ans: "b"
-            }
+            },
             {
                 q: "What's Elmo's pet's name?",
                 a: "Dorothy",
@@ -106,7 +91,20 @@
                 ans: "a"
             }
         ];
-        renderQuestion();
+        const startButton = document.getElementById('start-btn');
+        startButton.addEventListener('click', startQuiz);
+        
+            renderQuestion();
+            console.log(questIndex);  
+            acceptAnswer();
+      
+        
+        
+        function startQuiz(){
+            console.log("Quiz started");
+            $('#start-btn').attr('style', 'display:none');
+            $('#quiz').attr('style', 'display:flex');
+        }
 
         function renderQuestion(){
             if(questIndex <= questions.length){
@@ -120,6 +118,39 @@
                 $("#opt-d").text(questions[questIndex].d);
             }else{
                 displayScore();
+            }
+        }
+        //this function extracts option that was clicked as an answer
+        function acceptAnswer(){
+            $(document).ready(function(){
+                $(".opt").click(function(){
+                    answer = $(this).val();
+                    console.log(answer);
+                    checkAnswer();
+                });
+            });
+
+        }
+
+        function checkAnswer(){
+            console.log(questions[questIndex].ans);
+            console.log(answer);
+            if(questions[questIndex].ans === answer){
+                console.log(`Answer is correct`);
+                isCorrect = true;
+                
+            }
+            else{
+                isCorrect = false;
+            }
+            questIndex++;
+            displayResult();
+        }
+        function displayResult(){
+            if (isCorrect){
+                $('body').attr('style', 'background-color:green');
+            }else{
+                $('body').attr('style', 'background-color: darkred');
             }
         }
         function displayScore(){
